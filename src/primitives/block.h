@@ -58,6 +58,29 @@ public:
     int64_t GetBlockTime() const { return (int64_t)nTime; }
 };
 
+class SubHeader{
+	uint32_t nNonceArray [1];
+
+	SubHeader() { SetNull(); }
+
+	ADD_SERIALIZE_METHODS;
+
+	template <typename Stream, typename Operation>
+
+    inline void SerializationOp(Stream &s, Operation ser_action) {
+        READWRITE(nNonceArray);
+    }
+
+    void SetNull() {
+        nNonce = {0};
+    }
+
+    bool IsNull() const { return (nNonceArray[0] = 0); }
+
+    uint256 GetHash() const;
+
+}
+
 class CBlock : public CBlockHeader {
 public:
     // network and disk
